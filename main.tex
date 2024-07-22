@@ -1,0 +1,1143 @@
+\documentclass{article}
+\usepackage{paracol}
+\usepackage[a4paper]{geometry}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+
+\author{{T\&S - Cheurte}}
+\date{\today}
+\title{Bash course}
+% \pagestyle{empty}
+\setlength\parindent{0pt}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.85, 0.85, 0.85}
+
+\newcommand{\inlinecode}[1]{\colorbox{backcolour}{\footnotesize{\texttt{#1}}}}
+
+\lstdefinestyle{command}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstdefinestyle{terminal}{
+    backgroundcolor=\color{black},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    basicstyle=\ttfamily\footnotesize\color{green},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\pagebreak
+
+\section{Introduction}
+Bash is a scripting language that can be executed by the bash program. It allows performing a series of actions, such as navigating in specific directories, creating folders or launching processes. By saving these command lines in a script, it is possible to repeat the same sequence of steps multiple times and execute them by running the script.
+
+\subsection{Bash commands}
+Usually, the shell prompt looks something like this:
+\begin{lstlisting}[style=terminal, language=bash]
+[username@host ~]$
+\end{lstlisting}
+It is then possible to enter a command after the \inlinecode{\$} sign, and check the output in the terminal. Generally, commands follow this syntax:
+
+\begin{lstlisting}[style=command, language=bash]
+command [OPTIONS] arguments
+\end{lstlisting}
+
+Some simple commands:
+
+\begin{itemize}
+
+	\item \inlinecode{echo} command
+
+	      The \inlinecode{echo} command, which we used massively already, allow a user to print something on the terminal. However, the echo command has also a few parameters:
+
+	      \begin{paracol}{2}
+		      \textbf{Options of \inlinecode{echo}}:
+
+		      \footnotesize{\begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X| }
+				      \hline
+				      Option & Description                                                                 \\ \hline
+				      -n     & Do not output a trailing newline                                            \\ \hline
+				      -E     & Disable the interpretation of the following backslash-escaped characters.   \\ \hline
+				      -e     & Interpretation of the following backslash-escaped characters in each String \\ \hline
+			      \end{tabularx}}
+
+		      \switchcolumn
+
+		      \raggedright\textbf{Backslash-escaped characters list}
+
+		      \footnotesize{\begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X |}
+				      \hline
+				      Option                       & Description                                      \\ \hline
+				      \textbackslash a             & Alarm sound                                      \\ \hline
+				      \textbackslash b             & One character back                               \\ \hline
+				      \textbackslash c             & Suppress text wrapping                           \\ \hline
+				      \textbackslash f             & Back                                             \\ \hline
+				      \textbackslash n             & Line break                                       \\ \hline
+				      \textbackslash r             & Back to beginning of line                        \\ \hline
+				      \textbackslash t             & Tabulator (horizontal)                           \\ \hline
+				      \textbackslash v             & Tabulator (vertical)                             \\ \hline
+				      \textbackslash\textbackslash & Backslash character output                       \\ \hline
+				      \textbackslash nnn           & ACSII characters in octal form (bash only)       \\ \hline
+				      \textbackslash 0nnn          & ASCII characters in octal form (sh and ksk only) \\ \hline
+			      \end{tabularx}}
+	      \end{paracol}
+	      It is also possible to specify text attribute on the \inlinecode{echo} command, like colors or properties.
+	\item \inlinecode{date}: Display the current date (There is an extensive documentation on the \inlinecode{date} command, it will not be described here.)
+	      \inlinecode{Usage: date [OPTION]... [+FORMAT]}
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ date
+Tue Jun 11 13:10:03 CEST 2024
+\end{lstlisting}
+
+	\item \inlinecode{pwd}: Displays the \textbf{P}resent \textbf{W}orking \textbf{D}irectory
+	      \begin{paracol}{2}
+		      \begin{lstlisting}[style=terminal]
+[username@host ~]$ pwd
+/home/user/Documents/
+\end{lstlisting}
+		      \switchcolumn
+		      \footnotesize{
+			      \begin{tabularx}{\linewidth}{| r |>{\raggedright\arraybackslash}X |}\hline
+				      \textbf{Arg.} & \textbf{Comment}                                                                        \\\hline
+				      -L            & print the value of \$PWD if it names the current working directory (enabled by default) \\\hline
+				      -P            & print the physical directory, without any symbolic links (enabled by default)           \\\hline
+			      \end{tabularx}}
+	      \end{paracol}
+
+	      % ls command
+	\item \inlinecode{ls}: \textbf{L}i\textbf{s}t the content of the current Directory
+	      \begin{paracol}{2}
+		      \begin{lstlisting}[style=terminal]
+[username@host ~]$ ls
+Documents Downloads
+\end{lstlisting}
+		      \faWarning. A lot of other parameters are available for the \inlinecode{ls} command. Check the doc for more information.
+		      \switchcolumn
+		      \footnotesize{
+			      \begin{tabularx}{\linewidth}{| r |>{\raggedright\arraybackslash}X | >{\raggedright\arraybackslash}X |}\hline
+				      \textbf{Arg.}   & \textbf{Arg.}          & \textbf{Comment}                                   \\\hline
+				      \inlinecode{-a} & \inlinecode{\(--\)all} & Do not ignore entries starting with \inlinecode{.} \\\hline
+				      \inlinecode{-l} &                        & Use a long listing format                          \\\hline
+			      \end{tabularx}}
+	      \end{paracol}
+
+	\item \inlinecode{ps}: displays information about a selection of the active processes:
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ ps
+  PID TTY          TIME CMD
+ 1411 pts/4    00:00:02 bash
+11958 pts/4    00:00:00 ps
+\end{lstlisting}
+
+	      \faWarning. There is an extensive doc with more parameter with \inlinecode{ps --help all}
+
+	\item \inlinecode{which}: Print the location of the executable. The \inlinecode{which} command has also a bunch of options.
+
+	\item The \inlinecode{cat} command concatenate File(s) to standard output:\\
+	      \inlinecode{Usage: cat [OPTION]... [FILE]...}
+
+	      \begin{paracol}{2}
+		      \raggedright \textbf{Example}
+		      \begin{lstlisting}[style=terminal]
+[username@host ~]$ cat main.c
+#include<stdio.h>
+int main(){
+    printf("Hello World!");
+    return 0;
+}
+\end{lstlisting}
+
+		      \switchcolumn
+
+		      \raggedright \textbf{\inlinecode{cat} config} (\faWarning. read the doc for more)
+
+		      \footnotesize{
+			      \begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X |>{\raggedright\arraybackslash}X |}\hline
+				      \inlinecode{-T} & \inlinecode{--show-tabs} & Display TAB characters as \inlinecode{\^I}      \\\hline
+				      \inlinecode{-E} & \inlinecode{--show-ends} & Display \inlinecode{\$} at the end of each line \\\hline
+				      \inlinecode{-n} & \inlinecode{--number}    & Number all output lines                         \\\hline
+			      \end{tabularx}
+		      }
+
+	      \end{paracol}
+	      So it is simply possible to get the entire content of a file like this for example:
+	      \begin{lstlisting}[style=command, language=bash]
+file_content=$(cat file.md)
+\end{lstlisting}
+
+	\item \raggedright \inlinecode{wc} print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.  A word is a non-zero-length sequence of printable characters delimited by white space. \inlinecode{Usage: wc [OPTION]... [FILE]...}
+	      \begin{paracol}{2}
+		      \textbf{Example}
+		      \begin{lstlisting}[style=terminal]
+[username@host ~]$ cat file.txt
+Tue Jun 11 13:10:03 CEST 2024
+/home/user/Documents/
+[username@host ~]$ wc -lc file.txt
+2 52 spec.txt
+\end{lstlisting}
+		      \switchcolumn
+		      \textbf{\inlinecode{wc} Config} (read the doc for more)
+		      \footnotesize{
+			      \begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X |>{\raggedright\arraybackslash}X |}\hline
+				      \textbf{Arg.} & \textbf{Arg.} & \textbf{Comment}           \\\hline
+				      -c            & \(--\)bytes   & print the byte counts      \\\hline
+				      -m            & \(--\)chars   & print the character counts \\\hline
+				      -l            & \(--\)lines   & print the newline counts   \\\hline
+			      \end{tabularx}}
+	      \end{paracol}
+	\item The \inlinecode{grep} search for \textbf{PATTERNS} in each file or string.
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ cat main.c
+#include<stdio.h>
+int main(){
+    printf("Hello World!");
+    return 0;
+}
+[username@host ~]$ grep -i "Hello World" main.c
+printf("Hello World!\n");
+    \end{lstlisting}
+	      The \inlinecode{-i} is the \inlinecode{\(--\)ignore-case} argument is the ignore case distinctions in patterns and data. (\faWarning. There is again here an extensive manual for this command.)
+
+
+	\item \inlinecode{Read} command
+
+	      \begin{paracol}{2}
+
+		      The \inlinecode{read} command is used to read the user input and store it in a variable.
+
+		      \begin{lstlisting}[style=command, language=bash]
+echo "Hello, what's your name:"
+read name
+echo Nice to meet you $name
+\end{lstlisting}
+
+		      \begin{lstlisting}[style=terminal]
+Hello, what's your name:
+Peter
+Nice to meet you Peter
+\end{lstlisting}
+
+		      \begin{itemize}
+
+			      \item Split the user input
+
+			            \begin{lstlisting}[style=command, language=Bash]
+read var1 var2
+echo var1: $var1
+echo var2: $var2
+\end{lstlisting}
+
+			            \begin{lstlisting}[style=terminal,language=Bash]
+Hello World
+var1: Hello
+var2: World
+\end{lstlisting}
+
+		      \end{itemize}
+
+		      Note: The \inlinecode{-a} parameter is selected by default.
+
+
+		      \switchcolumn
+
+		      \textbf{Read Options}
+
+		      \footnotesize{\begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X|}\hline
+				      \textbf{Options} & \textbf{Description}                                                                                      \\\hline
+				      -a               & Assigns the provided word sequence to a variable named                                                    \\\hline
+				      -d               & Reads a line until the provided value is typed instead of a new line.                                     \\\hline
+				      -e               & Starts an interactive shell session to obtain the line to read.                                           \\\hline
+				      -i               & Adds initial text before reading a line as a prefix.                                                      \\\hline
+				      -n               & Returns after reading the specified number of characters while honoring the delimiter to terminate early. \\\hline
+				      -N               & Returns after reading the specified number of chars, ignoring the delimiter.                              \\\hline
+				      -p               & Outputs the prompt string before reading user input.                                                      \\\hline
+				      -r               & Disable backslashes to escape characters.                                                                 \\\hline
+				      -s               & Does not echo the user's input.                                                                           \\\hline
+				      -t               & The command times out after the specified time in seconds.                                                \\\hline
+				      -u               & Read from file descriptor instead of standard input.                                                      \\\hline
+			      \end{tabularx}}
+	      \end{paracol}
+
+\end{itemize}
+
+\faWarning. It is possible to get the manual of a command with the \inlinecode{man} command.
+
+\pagebreak
+\section{Bash scripts}
+
+\subsection{Script name}
+
+By naming convention, bash scripts end with \inlinecode{.sh}. However, bash scripts can run perfectly without the \inlinecode{sh} extension.
+
+\subsection{Adding Shebang}
+
+Bash scripts start with a \inlinecode{shebang}. Shebang is a combination of \inlinecode{bash \#} and \inlinecode{bang !} followed by the shell path. This is the first line of a script, this tells the shell to execute it via bash shell. Shebang is simply the absolute path to the bash interpreter.
+Below an example of shebang:
+
+\begin{lstlisting}[style=command, language=bash]
+#!/usr/bin/bash
+\end{lstlisting}
+This is the most common path, but this can differ depending on your Linux distro. To find the path of your shell interpreter, run:
+
+\begin{lstlisting}[style=terminal]
+[username@host ~]$ which bash
+\end{lstlisting}
+
+\subsection{First script}
+Start by creating a bash script file. In a UNIX system, use the \inlinecode{touch} command to create a new file:
+\begin{lstlisting}[style=command, language=bash]
+touch first_script.sh
+\end{lstlisting}
+Open the file with your preferred editor and add the following commands:
+\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+echo Today is $(date)
+\end{lstlisting}
+\begin{itemize}
+	\item Line 1: This is the \inlinecode{Shebang}
+	\item Line 2: The \inlinecode{echo} command is displaying a string and a variable. We will come back to variables later.
+\end{itemize}
+To execute the script, run \inlinecode{./first\_script.sh} or \inlinecode{sh first\_script.sh} on your terminal. It might however not work, in that case, run this command:
+\begin{lstlisting}[style=terminal]
+[username@host ~]$ chmod +x first_script.sh
+\end{lstlisting}
+Here, \begin{itemize}
+	\item \inlinecode{chmod} modifies the access permission and the special mode flags.
+	\item \inlinecode{+x} adds the execution rights to the current user. This means that you can now run the script.
+\end{itemize}
+
+\pagebreak
+
+\section{Basics}
+
+\subsection{Comments}
+
+Comments start with a \inlinecode{\#} in bash scripts.
+
+\begin{lstlisting}[style=command]
+# This is a comment
+\end{lstlisting}
+
+\subsection{Conditional execution}
+
+It is possible to write multiple commands with the \inlinecode{\&\&} operator.
+
+\begin{lstlisting}[style=terminal]
+[username@host ~]$ git commit && git push   # Both commands executed
+\end{lstlisting}
+
+\begin{lstlisting}[style=terminal]
+[username@host ~]$ git commit || echo "Commit failed"
+\end{lstlisting}
+
+\subsection{Multiple commands}
+You can separate multiple commands by adding a \inlinecode{;} between them.
+
+\begin{lstlisting}[style=terminal]
+[username@host ~]$ pwd ; ls
+/home/user/Documents
+file1.txt file2.txt
+\end{lstlisting}
+
+\section{Variables}
+
+Variable in bash, as in any other programming language, let you store data. In bash, they are no data types, variables can store numerical values, characters or string.
+
+\begin{itemize}
+	\item Assign a value:
+	      \begin{lstlisting}[style=command, language=bash]
+city=Stuttgart
+age=26
+welcome="Hello World!"
+echo $city $age $welcome
+\end{lstlisting}
+
+	      \begin{lstlisting}[style=terminal]
+Stuttgart 26 Hello World!
+\end{lstlisting}
+
+	\item Use an existing variable somewhere with the \inlinecode{\$} sign
+
+	      \begin{lstlisting}[style=command, language=bash]
+city="Stuttgart"
+other_city=$city
+echo $other_city
+\end{lstlisting}
+
+	      \begin{lstlisting}[style=terminal]
+Stuttgart
+\end{lstlisting}
+
+\end{itemize}
+
+\faWarning. Do not add spaces before and after the \inlinecode{=}.
+
+\subsection{Variable conventions}
+
+\begin{itemize}
+	\item Variables should start with a letter or an underscore
+	\item Variable names can contain letters, number, and underscores
+	\item Variable names are case-sensitive.
+	\item Variable name should not contain spaces or special characters
+	\item Avoid reserved keywords like \inlinecode{if}, or \inlinecode{else}
+\end{itemize}
+
+\subsection{Numeric calculations}
+
+Here are a couple calculation examples:
+
+\begin{lstlisting}[style=command, language=bash]
+$((a + 200))    # Add 200 to a
+\end{lstlisting}
+
+\begin{lstlisting}[style=command, language=bash]
+$(($RANDOM%200))  # Random number 0..199
+\end{lstlisting}
+
+\begin{lstlisting}[style=command, language=bash]
+declare -i count  # Declare as type integer
+count+=1          # Increment
+\end{lstlisting}
+
+\subsection{The \inlinecode{declare} key-word}
+The built-in declare statement does not need to be used to explicitly declare a variable in bash, the command is often employed for more advanced variable management tasks.
+\inlinecode{declare} syntax: \inlinecode{declare [options] [variable=name]="[value]"}
+Options:
+
+\begin{tabularx}{\linewidth}{| r |>{\raggedright\arraybackslash}X|}\hline
+	-a & The variable is an indexed array. You cannot unset this attribute.                                                               \\\hline
+	-A & The variable is an associative array. You cannot unset this attribute.                                                           \\\hline
+	-f & Declare a bash function, not a variable.                                                                                         \\                                                                                        \hline
+	-F & Display the function's name and attributes.                                                                                      \\                                                                                     \hline
+	-g & Apply the global scope to all the variable operations inside a shell function. The option does not work outside shell functions. \\\hline
+	-i & The value of the variable is an integer. Unset the attribute with +i.                                                            \\\hline
+	-l & The variable name consists of lowercase characters only. Unset the attribute with +l.                                            \\\hline
+	-n & The variable becomes a name reference for another variable. Unset the attribute with +n.                                         \\\hline
+	-p & Display options and attributes of variables.                                                                                     \\                                                                                    \hline
+	-r & The variable is read-only. Unset the attribute with +r.                                                                          \\\hline
+	-t & If used with functions, the item inherits DEBUG and RETURN traps from the parent shell. Unset the attribute with +t.             \\\hline
+	-u & The variable name consists of uppercase characters only. Unset the attribute with +u.                                            \\\hline
+	-x & Export the variable to child processes, similar to the export command. Unset the attribute with +x.                              \\\hline
+\end{tabularx}
+
+A few tips:
+
+\begin{lstlisting}[style=command, language=bash]
+declare -i testvar="100" # We declare an integer of 100
+declare -p | grep testvar
+\end{lstlisting}
+
+Output:
+\begin{lstlisting}[style=terminal]
+declare -- _="testvar=100"
+declare -- testvar="100"
+\end{lstlisting}
+
+\subsection{Arrays}
+Defining Arrays:
+\begin{lstlisting}[style=command, language=bash]
+Fruits=('Apple' 'Banana' 'Orange')
+Fruits[0]="Apple"
+Fruits[1]="Banana"
+Fruits[2]="Orange"
+\end{lstlisting}
+
+Working with arrays:
+
+\begin{lstlisting}[style=command, language=bash]
+echo "${Fruits[0]}"           # Element #0
+echo "${Fruits[-1]}"          # Last element
+echo "${Fruits[@]}"           # All elements, space-separated
+echo "${#Fruits[@]}"          # Number of elements
+echo "${#Fruits}"             # String length of the 1st element
+echo "${#Fruits[3]}"          # String length of the Nth element
+echo "${Fruits[@]:3:2}"       # Range (from position 3, length 2)
+echo "${!Fruits[@]}"          # Keys of all elements, space-separated
+\end{lstlisting}
+
+Operations:
+\begin{lstlisting}[style=command, language=bash]
+Fruits=("${Fruits[@]}" "Watermelon")    # Push
+Fruits+=('Watermelon')                  # Also Push
+Fruits=( "${Fruits[@]/Ap*/}" )          # Remove by regex match
+unset Fruits[2]                         # Remove one item
+Fruits=("${Fruits[@]}")                 # Duplicate
+Fruits=("${Fruits[@]}" "${Veggies[@]}") # Concatenate
+lines=(`cat "logfile"`)                 # Read from file
+\end{lstlisting}
+
+Iterations:
+\begin{lstlisting}[style=command, language=bash]
+for i in "${arrayName[@]}"; do
+  echo "$i"
+done
+\end{lstlisting}
+
+\pagebreak
+
+\section{Special characters}
+
+\subsection{Redirection}
+\raggedright Before a command is executed, its input and output may be redirected using a special notation interpreted by the shell. Redirection allows commands’ file handles to be duplicated, opened, closed, made to refer to different files, and can change the files the command reads from and writes to. Redirection may also be used to modify file handles in the current shell execution environment. The following redirection operators may precede or appear anywhere within a simple command or may follow a command. Redirections are processed in the order they appear, from left to right.\\
+
+\begin{itemize}
+	\item The \textbf{Regular output \inlinecode{>} operator} is probably the most recognized of the operators. The standard output (stdout) is usually to the terminal window. It is usually used for Writing in a file:
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ date
+Tue Jun 11 13:10:03 CEST 2024
+[username@host ~]$ date > spec.txt
+[username@host ~]$ cat spec.txt
+Tue Jun 11 13:10:03 CEST 2024
+\end{lstlisting}
+
+	\item The \textbf{Regular output append \inlinecode{>>} operator} adds the output to the existing content instead of overwriting it. This allows you to redirect the output from multiple commands to asingle file.
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ date >> spec.txt
+[username@host ~]$ pwd >> spec.txt
+[username@host ~]$ cat spec.txt
+Tue Jun 11 13:10:03 CEST 2024
+/home/User/Documents/
+\end{lstlisting}
+
+	\item The \textbf{Regular input \inlinecode{<} operator} pulls data in a stream from a given source. This operator is especially useful for reading files (see later).
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ wc -lc file.txt
+2 52 file.txt
+[username@host ~]$ wc -lc < file.txt
+2 52
+\end{lstlisting}
+
+	      Here only the content of the file is passed to the \inlinecode{wc} command.
+
+	\item The \textbf{regular error \inlinecode{2>} operator} redirect standard errors. When a program or script does not generate the expected results, it throws an error. The error is usually sent to the \textbf{stdout}, but it can be redirected elsewhere. The \textbf{stderr} operator is \inlinecode{2>}
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ png
+bash: png: command not found...
+[username@host ~]$ png 2> error.txt
+[username@host ~]$ cat error.txt
+bash: png: command not found...
+\end{lstlisting}
+
+	\item For redirecting the \textbf{Standard Output} and \textbf{Standard Error}, They are three formats: \inlinecode{\&>}, \inlinecode{>\&} and the \inlinecode{> FILE 2>\&1}
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ (pwd && png) > output.txt 2> err.txt
+[username@host ~]$ (pwd && png) >& output.txt
+[username@host ~]$ (pwd && png) &> output.txt
+[username@host ~]$ cat output.txt
+/home/user/Documents
+[username@host ~]$ cat err.txt
+-bash: -png: command not found
+\end{lstlisting}
+
+	      Here, the \inlinecode{(pwd \&\& png)} create an error and a regular output. It is only here for example purposes.
+
+	      From the two first forms, the \inlinecode{\&>} is preferred.
+
+	\item The \textbf{Here document \inlinecode{<<} operator} instruct the shell to read the  input from the current source until a line containing only word (with no trailing blanks) is seen.
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ wc << END
+> One two three
+> four
+> five
+> END
+      3       5      24
+\end{lstlisting}
+
+	      Here, \inlinecode{END} can be replaced by anything.
+
+	\item The \textbf{Here String \inlinecode{<<<}} is a variant of \textbf{Here Document}. The result is supplied as a single string, with a newline appended, to the command on its standard input.  It is especially useful for passing command line argument to another as a string.
+
+	      \begin{lstlisting}[style=terminal]
+[username@host ~]$ ls
+file1.txt file2.txt script1.sh script2.sh
+[username@host ~]$ grep "txt" <<< $(ls)
+file1.txt
+file2.txt
+\end{lstlisting}
+
+	      Here, even though it isn't the regular way of doing it, the string of the \inlinecode{ls} command is passed to the \inlinecode{grep} command.
+	      More practical and useful examples will be cover in the \textbf{\inlinecode{while} loop} section.
+
+	\item The \textbf{Pipe \inlinecode{|}} operator takes the output of the first command and makes it the input of the second command.
+	      \begin{lstlisting}[style=terminal, language=bash]
+[username@host ~]$ ls
+Document Download Pictures
+[username@host ~]$ ls | grep "Do"
+Documents
+Downloads
+\end{lstlisting}
+
+	      The pipe operator is especially great for combining multiple commands.
+\end{itemize}
+
+\subsection{Other special characters}
+\begin{itemize}
+	\item \inlinecode{"} \& \inlinecode{'}: There is a difference between the single and double quote. Single quotes preserve literal meaning; double quotes allow substitutions.
+	      Examples:
+	      \begin{lstlisting}[style=command]
+a=apple
+\end{lstlisting}
+	      \footnotesize{\begin{tabularx}{\linewidth}{ | r | r |>{\raggedright\arraybackslash}X|}\hline
+			      \textbf{Bash}                  & \textbf{Output}                & \textbf{Comment}                                                                                                                  \\\hline
+			      \inlinecode{"\$a"}             & \inlinecode{apple}             & variables are expanded inside \inlinecode{""}                                                                                     \\\hline
+			      \inlinecode{'\$a'}             & \inlinecode{\$a}               & variables are not expanded inside \inlinecode{''}                                                                                 \\\hline
+			      \inlinecode{"'\$a'"}           & \inlinecode{'apple'}           & '' has no special meaning inside \inlinecode{""}                                                                                  \\\hline
+			      \inlinecode{'"\$a"'}           & \inlinecode{"\$a"}             & "" is treated literally inside \inlinecode{''}                                                                                    \\\hline
+			      \inlinecode{'\textbackslash''} & invalid                        & can not escape a \inlinecode{'} within \inlinecode{''}; use \inlinecode{"'"} or \inlinecode{\$'\textbackslash''} (ANSI-C quoting) \\\hline
+			      \inlinecode{'\textbackslash"'} & \inlinecode{\textbackslash" }  & \inlinecode{\textbackslash} has no special meaning inside \inlinecode{''}                                                         \\\hline
+			      \inlinecode{"redapple\$"}      & \inlinecode{redapple\$}        & \inlinecode{\$} followed by no variable name evaluates to \inlinecode{\$}                                                         \\\hline
+			      \inlinecode{"\textbackslash'"} & \inlinecode{\textbackslash'  } & \inlinecode{\textbackslash'} is interpreted inside \inlinecode{""} but has no significance for \inlinecode{'}                     \\\hline
+			      \inlinecode{"\textbackslash""} & \inlinecode{"}                 & \inlinecode{\textbackslash"} is interpreted inside \inlinecode{""}                                                                \\\hline
+			      \inlinecode{"*"}               & \inlinecode{*}                 & glob does not work inside \inlinecode{""} or \inlinecode{''}                                                                      \\\hline
+			      \inlinecode{'\${arr[0]}'}      & \inlinecode{\${arr[0]}}        & array access not possible inside \inlinecode{''}                                                                                  \\\hline
+			      \inlinecode{"\${arr[0]}"}      & \inlinecode{apple}             & array access works inside \inlinecode{""}                                                                                         \\\hline
+		      \end{tabularx}}
+
+\end{itemize}
+
+\subsection{Glob}
+\begin{itemize}
+	\item \inlinecode{*}: \textbf{Glob}al. Match any single character (not between brackets).
+	      \begin{lstlisting}[style=terminal, language=bash]
+[username@host ~]$ ls
+Documents Downloads Pictures
+[username@host ~]$ ls D*
+Documents:
+Doc
+
+Downloads:
+    \end{lstlisting}
+	      \begin{lstlisting}[style=terminal, language=bash]
+[username@host ~]$ ls
+file1.txt script1.sh script.sh
+[username@host ~]$ ls *.sh
+script1.sh script.sh
+\end{lstlisting}
+
+	\item An expression "\inlinecode{[...]}" where the character after the leading \inlinecode{'['} is not an \inlinecode{'!'} matches a single character. By convention, two characters separated by \inlinecode{'-'} denote a range. (Thus, \inlinecode{[A-Fa-f0-9]} is equivalent to \inlinecode{[ABCDEFabcdef0123456789]}.)
+
+\end{itemize}
+
+\pagebreak
+\section{Conditions}
+\subsection{If and Else}
+\begin{paracol}{2}
+	\raggedright We define a condition with the keywords \inlinecode{if}, \inlinecode{if-else} and/or \inlinecode{if-elif-else} for nested conditionals.
+	\begin{lstlisting}[style=command, language=bash]
+if [[ condition ]];
+then
+   statement
+elif [[ condition ]]; then
+    statement
+else
+    do this is default
+fi
+\end{lstlisting}
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+
+echo "Please enter a number: "
+read num
+
+if [ $num -gt 0 ]; then
+  echo "$num is positive"
+elif [ $num -lt 0 ]; then
+  echo "$num is negative"
+else
+  echo "$num is zero"
+fi
+\end{lstlisting}
+	A few rules:
+	\begin{itemize}
+		\item Always keep spaces between brackets and the comparison/check
+		      \begin{lstlisting}[style=command, language=bash]
+if [$foo -gt 3]; then
+\end{lstlisting}
+		      This does \textbf{not work}.
+		\item Always terminate the line before the \inlinecode{then} (Add a \inlinecode{;})
+		\item It is a good habit to quote string variables, otherwise they are likely to give trouble if they contain spaces and/or newlines.
+		      \begin{lstlisting}[style=command, language=bash]
+if [ "$foo" == "Foo" ]; then
+\end{lstlisting}
+
+		\item It is possible for \textbf{arithmetic expressions} only to use parenthesis.
+		      \begin{lstlisting}[style=command, language=bash]
+if (( $num <= 5 )); then
+\end{lstlisting}
+		\item The basic rule of bash when it comes to conditions is \inlinecode{0 equals true}, and \inlinecode{\(>\) 0 equals false}.
+		\item It is easy to quickly test a condition:
+		      \begin{lstlisting}[style=command, language=bash]
+[ $foo -gt 3 ]; && echo true
+\end{lstlisting}
+		      If true is printed, it means that your condition returned true.
+	\end{itemize}
+
+	\switchcolumn
+	A few expressions for conditions. There are more than these below.
+
+	\footnotesize{\begin{tabularx}{\linewidth}{| r | >{\raggedright\arraybackslash}X |}\hline
+			\textbf{Primary}            & \textbf{Meaning}                                                                                       \\\hline
+			EXPR1 \inlinecode{-a}EXPR2  & AND                                                                                                    \\\hline
+			EXPR1 \inlinecode{-o}EXPR2  & OR                                                                                                     \\\hline
+			\inlinecode{!}EXPR          & Invert condition                                                                                       \\\hline
+			EXPR1 \inlinecode{-gt}EXPR2 & Greater than                                                                                           \\\hline
+			EXPR1 \inlinecode{-lt}EXPR2 & Less than                                                                                              \\\hline
+			EXPR1 \inlinecode{-eq}EXPR2 & Equal                                                                                                  \\\hline
+			EXPR1 \inlinecode{-le}EXPR2 & Less or Equal                                                                                          \\\hline
+			EXPR1 \inlinecode{-ge}EXPR2 & Greater or Equal                                                                                       \\\hline
+			\inlinecode{-a} FILE        & True if FILE exists                                                                                    \\\hline
+			\inlinecode{-b} FILE        & True if FILE exists \& is a block-special file                                                         \\\hline
+			\inlinecode{-c} FILE        & True if FILE exists \& is directory                                                                    \\\hline
+			\inlinecode{-e} FILE        & True if FILE exists                                                                                    \\\hline
+			\inlinecode{-f} FILE        & True if FILE exists \& regular file                                                                    \\\hline
+			\inlinecode{-g} FILE        & True if FILE exists \& SGID bit is set                                                                 \\\hline
+			\inlinecode{-r} FILE        & True if FILE exists \& readable                                                                        \\\hline
+			\inlinecode{-z} STRING      & True of the length if "STRING" is zero.                                                                \\\hline
+			\inlinecode{-n} STRING      & True if the length of "STRING" is non-zero.                                                            \\\hline
+			STRING1 OP STRING2          & Test between strings, with OP being \inlinecode{==}, \inlinecode{!=}, \inlinecode{>} or \inlinecode{<} \\\hline
+		\end{tabularx}}
+\end{paracol}
+
+Conditions with the double brackets \inlinecode{[[]]} serves as an enhanced version of the single-bracket syntax. It mainly has the same features, but also some important differences with it.
+\begin{itemize}
+	\item The double brackets syntax features shell globing. This means that an asterisk \inlinecode{*} will expand to literally anything. For instance here, if you want to match 'foo' or 'Foo':
+	      \begin{lstlisting}[style=command, language=bash]
+if [[ "$foo" == *[fF]oo* ]]; then
+\end{lstlisting}
+	\item Word splitting is different, so that omitting quotes around string variables and use a condition makes no problems.
+	      \begin{lstlisting}[style=command, language=bash]
+if [[ $foo == Foo ]]; then
+\end{lstlisting}
+	\item Single and double quotes conditions handles differently the file name expansion (globbing) and testing.
+	      \begin{lstlisting}[style=command, language=bash]
+[ -a *.sh ]; then
+\end{lstlisting}
+	      This above line will \textbf{not work} if multiple \inlinecode{.sh} files exists.
+	      \begin{itemize}
+		      \item The single brackets \inlinecode{([ ... ])} are a synonym for the test command.
+		      \item When using \inlinecode{[ -a ... ]}, the shell performs file name expansion on \inlinecode{*.sh} before passing it to the \textit{test} command.
+		      \item If there are multiple \inlinecode{*.sh} files in the directory, the expansion results in multiple arguments being passed.
+		      \item As a result, it will fail if more than one \inlinecode{sh} file is present.
+	      \end{itemize}
+	      However, \inlinecode{[[ -a *.sh ]]} will work
+	      \begin{itemize}
+		      \item Whithin \inlinecode{[[ ... ]]}, file name expansion is not performed in the same way. Instead \inlinecode{[[ -a *.sh ]]} is evaluated as a single expression/ \item The pattern \inlinecode{[[ ... ]]} is more flexible and can handle the \inlinecode{*.sh} correctly
+	      \end{itemize}
+	\item It is possible to use more general expressions within \inlinecode{[[ ... ]]} like \inlinecode{==} or \inlinecode{\&\&}
+	\item Double brackets allows \textbf{regex} pattern matching using the \inlinecode{=\~} operator.
+\end{itemize}
+\subsection{Case statement}
+The \inlinecode{case} statement is used to compare a given value against a list of pattern.
+\begin{paracol}{2}
+	\textbf{Syntax:}
+	\begin{lstlisting}[style=command, language=bash]
+case expression in
+    pattern1)
+        # code
+        ;;
+    pattern2)
+        # code
+        ;;
+    *)
+        # Default
+        ;;
+esac
+\end{lstlisting}
+
+	\switchcolumn
+
+	\textbf{Example:}
+	\begin{lstlisting}[style=command, language=bash]
+fruit="apple"
+case $fruit in
+    "apple")
+        echo "This is a red fruit."
+        ;;
+    "banana")
+        echo "This is a yellow fruit."
+        ;;
+    "orange")
+        echo "This is an orange fruit."
+        ;;
+    *)
+        echo "Unknown fruit."
+        ;;
+esac
+\end{lstlisting}
+\end{paracol}
+
+\pagebreak
+
+\section{Loop}
+
+\subsection{For loop}
+
+The \inlinecode{for} loop has the following syntax:
+\begin{paracol}{3}
+	\textbf{First Syntax}
+	\begin{lstlisting}[style=command, language=bash]
+for VAR in 1 2 3 .. N
+do
+    command1
+    command2
+    ..
+    commandN
+done
+\end{lstlisting}
+	\switchcolumn
+
+	\textbf{Second Syntax}
+	\begin{lstlisting}[style=command, language=bash]
+for VAR in file1 file2
+do
+    command1 on $VARIABLE
+    command2
+    ..
+    commandN
+done
+\end{lstlisting}
+
+	\switchcolumn
+
+	\textbf{Third Syntax}
+
+	\begin{lstlisting}[style=command, language=bash]
+for VAR in $(Linux Command here)
+do
+    command1 on $OUTPUT
+    command2 on $OUTPUT
+    ..
+    commandN
+done
+\end{lstlisting}
+
+\end{paracol}
+
+\begin{center}
+	\textbf{Examples first syntax}
+\end{center}
+\begin{paracol}{2}
+
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+for i in 1 2 3 4 5
+do
+   echo "Welcome $i times"
+done
+\end{lstlisting}
+
+	\switchcolumn
+
+	\begin{lstlisting}[style=terminal]
+Welcome 1 times
+Welcome 2 times
+Welcome 3 times
+Welcome 4 times
+Welcome 5 times
+\end{lstlisting}
+
+	\switchcolumn
+
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+for i in {1..5}
+do
+   echo "Welcome $i times"
+done
+\end{lstlisting}
+
+	\switchcolumn
+
+	\begin{lstlisting}[style=terminal]
+Welcome 1 times
+Welcome 2 times
+Welcome 3 times
+Welcome 4 times
+Welcome 5 times
+\end{lstlisting}
+
+\end{paracol}
+
+\raggedright Since Bash 4.0+ it is allowed to use the following syntax.\\
+
+\begin{paracol}{2}
+
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+for i in {0..10..2}
+do
+   echo "Welcome $i times"
+done
+    \end{lstlisting}
+	\switchcolumn
+
+	\begin{lstlisting}[style=terminal]
+Welcome 0 times
+Welcome 2 times
+Welcome 4 times
+Welcome 6 times
+Welcome 8 times
+Welcome 10 times
+\end{lstlisting}
+
+\end{paracol}
+
+\subsubsection{C shape for Loop}
+For loop can also share a common heritage with the C programming language.
+\begin{paracol}{2}
+	\begin{lstlisting}[style=command, language=bash]
+for (( init; condition; step ))
+do
+    shell_commands
+done
+\end{lstlisting}
+	\switchcolumn
+
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+for (( c=1; c<=5; c++ ))
+do
+   echo "Welcome $c times"
+done
+\end{lstlisting}
+
+\end{paracol}
+
+\subsubsection{Notes}
+It is possible to use the keywords \inlinecode{break} to exit a loop, or \inlinecode{continue} for going to the next loop turn.
+
+\subsection{While loop}
+
+Syntax:
+\begin{lstlisting}[style=command, language=bash]
+while CONDITION
+do
+    COMMANDS
+done
+\end{lstlisting}
+They are several known use with the while command:
+
+\subsubsection{Read File}
+
+They couple strategies to read a file in bash. The most straightforward is to use the \inlinecode{cat} command: \inlinecode{content=\$(cat file.txt)}
+
+Since we cannot read line by line the content of the file, it is not the best way. To do so, we can use the while loop:
+
+\begin{lstlisting}[style=command, language=bash]
+while read line; do
+    Command
+done < file.txt
+\end{lstlisting}
+
+Or:
+
+\begin{paracol}{2}
+	\begin{lstlisting}[style=command, language=bash]
+while IFS= read -r line; do
+    Command
+done < file.txt
+\end{lstlisting}
+
+	\switchcolumn
+
+	\footnotesize{
+		\begin{itemize}
+			\item \inlinecode{IFS} is the \textbf{I}nternal \textbf{F}ield \textbf{S}eparator. It prevent leading/trailing whitespace from being trimmed.
+			\item As mentioned before, the \inlinecode{-r} option prevent backslash escapes from being interpreted
+		\end{itemize}
+	}
+
+\end{paracol}
+
+\subsubsection{Read bash command line by line}
+
+In the same logic, it is possible to read line by line a bash command:
+
+\begin{lstlisting}[style=command, language=bash]
+while read line; do
+    echo "$line"
+done <<<$(ps -au)
+\end{lstlisting}
+
+\subsection{Until loop}
+
+Syntax:
+
+\begin{lstlisting}[style=command, language=bash]
+until CONDITON
+do
+    COMMAND
+done
+\end{lstlisting}
+
+\subsection{Select loop}
+
+Allow to create a simple menu system. Format:
+
+\begin{lstlisting}[style=command, language=bash]
+until ITEM in [LIST]; do
+    COMMAND
+done
+\end{lstlisting}
+
+It is possible to use the PS3 for prompting something at each loop turn right before a choice. Example:
+
+\begin{paracol}{2}
+
+	\begin{lstlisting}[style=command, language=bash]
+#!/bin/bash
+names='Kyle Cartman Stan Quit'
+PS3='Select character: '
+select name in $names; do
+    if [ $name == 'Quit' ]
+    then
+        break
+    fi
+    echo Hello $name
+done
+\end{lstlisting}
+
+	\switchcolumn
+
+	\begin{lstlisting}[style=terminal, language=bash]
+1) Kyle
+2) Cartman
+3) Stan
+4) Quit
+Select character: 1
+Hello Kyle
+\end{lstlisting}
+
+\end{paracol}
+Here, we change the \inlinecode{PS3} variable to change the prompt that is displayed. By default, the \inlinecode{PS3=\#?}
+
+\pagebreak
+
+\section{Functions}
+It is possible to declare functions in bash. They are two ways of defining functions:
+
+\begin{paracol}{2}
+
+	Preferred and more used format:
+
+	\begin{lstlisting}[style=command, language=bash]
+function_name () {
+    commands
+}
+\end{lstlisting}
+
+	Single line version:
+
+	\begin{lstlisting}[style=command, language=bash]
+function_name () { commands; }
+\end{lstlisting}
+
+	\switchcolumn
+
+	Second version:
+
+	\begin{lstlisting}[style=command, language=bash]
+function function_name () {
+    commands
+}
+\end{lstlisting}
+
+	Single line version:
+
+	\begin{lstlisting}[style=command, language=bash]
+function function_name () { commands; }
+\end{lstlisting}
+\end{paracol}
+
+\subsection{Return values}
+They are two ways of returning values:
+
+\begin{paracol}{2}
+	With the return keyword:
+	\begin{lstlisting}[style=command, language=bash]
+my_function () {
+  echo "some result"
+  return 55
+}
+\end{lstlisting}
+
+	\switchcolumn
+
+	The better option to return a value from a function is to send the value to \inlinecode{stdout} use \inlinecode{echo} of \inlinecode{printf} (See doc).
+
+	\begin{lstlisting}[style=command, language=bash]
+my_function () {
+  local func_result="some result"
+  echo "$func_result"
+}
+func_result="$(my_function)"
+\end{lstlisting}
+
+\end{paracol}
+
+\subsection{Arguments}
+
+To pass any number of arguments to the bash function simply put them right after the function’s name, separated by a space. It is a good practice to double-quote the arguments to avoid the misparsing of an argument with spaces in it.
+
+\begin{itemize}
+	\item The passed parameters are \inlinecode{\$1}, \inlinecode{\$2}, \inlinecode{\$3} .. \inlinecode{\$n}, corresponding to the position of the parameter after the function’s name.
+	\item The \inlinecode{\$0} variable is reserved for the function’s name.
+	\item The \inlinecode{\$\#} variable holds the number of positional parameters/arguments passed to the function.
+	\item The \inlinecode{\$*} and \inlinecode{\$@} variables hold all positional parameters/arguments passed to the function.
+	      \begin{itemize}
+		      \item When double-quoted, \inlinecode{"\$*"} expands to a single string separated by space (the first character of IFS) - \inlinecode{"\$1 \$2 \$n"}.
+		      \item When double-quoted, \inlinecode{"\$@"} expands to separate strings - \inlinecode{"\$1" "\$2" "\$n"}.
+		      \item When not double-quoted, \inlinecode{\$*} and \inlinecode{\$@} are the same.
+	      \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[style=command, language=bash]
+greeting () {
+  echo "Hello $1"
+}
+
+greeting "Joe"
+\end{lstlisting}
+% Ambroise
+\end{document}
