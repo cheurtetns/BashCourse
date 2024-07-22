@@ -19,7 +19,7 @@ while true; do
     # Do not delete this line, just press 'q' in during the test if you want to quit early the exercice
     if [[ $guess -eq 'q' ]]; then
         exit 1
-    fi
+    fi #TODO handle CTRL+C behavior
 
     # Check if guess is correct
     if [[ $guess -eq $secret_number ]]; then

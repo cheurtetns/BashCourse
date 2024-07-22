@@ -1,4 +1,3 @@
-h
 #
 # While loop allow you to loop
 #

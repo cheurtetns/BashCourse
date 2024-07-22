@@ -14,11 +14,11 @@
 main_path="./solutions/loop/main.c"
 count=0
 while read line; do
+    ((++count))
     if [[ $line =~ ^(.*)(Hello World)(.*)$ ]]; then
         # echo "-- ${BASH_REMATCH[1]}"
         # echo "-- ${BASH_REMATCH[2]}"
         # echo "-- ${BASH_REMATCH[3]}"
         echo "$count"
     fi
-    ((count++))
 done <$main_path

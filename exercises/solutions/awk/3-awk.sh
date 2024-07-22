@@ -10,7 +10,7 @@
 #
 # I AM NOT DONE
 
-awk -F: ‘{print $1}’ /etc/passwd
+awk -F: '{print $1}' /etc/passwd
 
 # Challenge
 # ls -l /etc | awk ‘{x += $5} END {print “total Kylobytes:” (x/1024)}'

@@ -97,6 +97,7 @@ while [ $count_files -lt ${#files[@]} ]; do
         # Check if an input is given by the user. This waits for 500ms
         check_input $exercise_name
         # Check if file updated
+        # TODO find another method to find if a file has been updated, not using the date
         if [[ $(date -r "${files[$count_files]}" +%s) -ne "$curr_date" ]]; then
             is_over=$(grep -Fxi "# I AM NOT DONE" ${files[$count_files]})
             if [ -z "${is_over}" ]; then
