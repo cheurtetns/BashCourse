@@ -12,6 +12,6 @@ bash run.sh
 ```
 ## To do list:
 
-- [ ] Find another method to know that the user updated its exercice script, not using the date
-- [ ] For 1-guess_game.sh, handle CTRL+C behavior. Currently it stops run.sh whereas it should stop the script launched in 1-guess_game.sh
+- [x] Find another method to know that the user updated its exercice script, not using the date
+- [x] For 1-guess_game.sh, handle CTRL+C behavior. Currently it stops run.sh whereas it should stop the script launched in 1-guess_game.sh
 - [ ] Develop some tests. Seems only relevant for some exercices (ex: func1.sh, not 1-sed.sh)

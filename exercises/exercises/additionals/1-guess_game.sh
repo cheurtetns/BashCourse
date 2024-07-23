@@ -4,13 +4,17 @@
 
 # I AM NOT DONE
 #
+
+# If the script is stucked in an infinite loop, ctrl+c will exit the script
+trap 'echo "Trap worked"' SIGINT
+
 # Create a random number between 1 and 10
 secret_number=$((1 + $RANDOM % 10))
 # Greeting message
 
 # Loop for guessing
 while true; do
-    # TODO: Prompt user for guess
+    # Prompt user for guess
 
     # Do not delete this line, just press 'q' in during the test if you want to quit early the exercice
     if [[ $guess -eq 'q' ]]; then
