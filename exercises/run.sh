@@ -19,11 +19,13 @@ check_input() {
             exit 1
         elif [[ "$userInput" == "c" ]]; then
             clear
+        elif [[ "$userInput" == "r" ]]; then
+            true # Just print the following echos
         else
             echo -e "${red}This is not a command${color_reset}"
         fi
         echo "EXERCICE $1"
-        echo -e "Press 'h' for Help, 'q' to Quit, 'c' to Clear or save the exercice"
+        echo -e "Press 'h' for Help, 'q' to Quit, 'r' to refresh, 'c' to Clear or save the exercice"
 
     fi
 }
@@ -63,7 +65,7 @@ while [ $count_files -lt ${#files[@]} ]; do
 
     echo "---------------------------------------------------"
     echo "EXERCICE $exercise_name"
-    echo -e "Press 'h' for Help, 'q' to Quit, 'c' to Clear or save the exercice"
+    echo -e "Press 'h' for Help, 'q' to Quit, 'r' to refresh, 'c' to Clear or save the exercice"
 
     curr_hash=$(md5sum ${files[$count_files]}) # Using hash to see if file content has changed
     while true; do
@@ -97,8 +99,7 @@ while [ $count_files -lt ${#files[@]} ]; do
         # Check if an input is given by the user. This waits for 500ms
         check_input $exercise_name
         # Check if file updated
-        # TODO find another method to find if a file has been updated, not using the date
-        if ! [[ "$(md5sum "${files[$count_files]}")" == "$curr_hash" ]]; then
+        if [[ "$(md5sum "${files[$count_files]}")" != "$curr_hash" || "$userInput" == "r" ]]; then
             is_over=$(grep -Fxi "# I AM NOT DONE" ${files[$count_files]})
             if [ -z "${is_over}" ]; then
                 unset $is_over
@@ -127,7 +128,7 @@ while [ $count_files -lt ${#files[@]} ]; do
             curr_hash=$(md5sum "${files[$count_files]}") # Has been updated
             echo "----------------"
             echo -e "Exercice $exercise_name"
-            echo -e "Press 'h' for Help, 'q' to Quit, 'c' to Clear or save the exercice"
+            echo -e "Press 'h' for Help, 'q' to Quit, 'r' to refresh, 'c' to Clear or save the exercice"
 
         fi
     done
