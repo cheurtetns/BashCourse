@@ -1,5 +1,5 @@
 {
-  "variable1": "HELP:\nDon't forget the \"\"\nDon't put spaces before and after the '=' sign",
+  "variable1": "HELP:\nDon't forget the double quotes\nDon't put spaces before and after the '=' sign",
   "variable2": "HELP:\nDon't forget the {} after the $.\nGet all values from an array with @",
   "condition1": "HELP:\nCompare string with '==' or '!='.\nCompare numbers with '-gt', '-ge', '-lt, '-le' or '-eq'",
   "condition2": "HELP:\nDon't forget the inverse ! operator\n",

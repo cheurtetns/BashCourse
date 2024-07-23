@@ -14,7 +14,7 @@ check_input() {
     if [[ -n "$userInput" ]]; then # Check if user entered something
         clear
         if [[ "$userInput" == "h" ]]; then
-            cat help.json | grep $1 | sed 's/:/\n/' | sed '1d' | sed 's/\\n/\n/g' | sed 's/"//g'
+            jq --arg key "$1" '.[$key]' src/help.json | sed 's/^"\(.*\)"$/\1/' | sed 's/\\n/\n/g'
         elif [[ "$userInput" == "q" ]]; then
             exit 1
         elif [[ "$userInput" == "c" ]]; then
