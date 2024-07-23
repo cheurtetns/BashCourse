@@ -65,7 +65,7 @@ while [ $count_files -lt ${#files[@]} ]; do
     echo "EXERCICE $exercise_name"
     echo -e "Press 'h' for Help, 'q' to Quit, 'c' to Clear or save the exercice"
 
-    curr_date=$(stat -c %z ${files[$count_files]}) # Use %z to check inode change time (this time can be changed only by admin) 
+    curr_hash=$(sha256sum ${files[$count_files]}) # Useing hash to see if file content has changed
     while true; do
 
         # Check if user wants to continue or not
@@ -98,7 +98,7 @@ while [ $count_files -lt ${#files[@]} ]; do
         check_input $exercise_name
         # Check if file updated
         # TODO find another method to find if a file has been updated, not using the date
-        if ! [[ "$(stat -c %z "${files[$count_files]}")" == "$curr_date" ]]; then
+        if ! [[ "$(sha256sum "${files[$count_files]}")" == "$curr_hash" ]]; then
             is_over=$(grep -Fxi "# I AM NOT DONE" ${files[$count_files]})
             if [ -z "${is_over}" ]; then
                 unset $is_over
@@ -124,8 +124,7 @@ while [ $count_files -lt ${#files[@]} ]; do
             ) | tee /tmp/out
             out=$(cat /tmp/out)
 
-            curr_date=$(stat -c %z "${files[$count_files]}") # Has been updated
-
+            curr_hash=$(sha256sum "${files[$count_files]}") # Has been updated
             echo "----------------"
             echo -e "Exercice $exercise_name"
             echo -e "Press 'h' for Help, 'q' to Quit, 'c' to Clear or save the exercice"
