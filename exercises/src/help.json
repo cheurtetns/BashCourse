@@ -14,5 +14,6 @@
   "1-awk": "HELP:\nDon't forget the '' and the // before and after the regex value.",
   "2-awk": "HELP:\nUse the | operator to redirect the output of 'ps -au' to the awk command.\nUse the print command and not the echo command inside the ''.\n To get the wanted column, use the $i to get the ieme corresponding column. The column indices starts at 1.",
   "3-awk": "HELP:\nUse the -F with the : just next to it (no spaces)\nThe users are listed in the first column ",
-  "error1": "HELP:\nThe 'set -e' exists  immediately if a pipeline, which may consist of a single simple command, a list, or a compound command returns a non-zero status."
+  "error1": "HELP:\nThe 'set -e' exists  immediately if a pipeline, which may consist of a single simple command, a list, or a compound command returns a non-zero status.",
+  "error2": "HELP:\n Search for the last element of the PIPESTATUS array"
 }

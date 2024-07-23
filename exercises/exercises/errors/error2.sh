@@ -15,7 +15,7 @@ set -e
 echo "foo" | grep "oo"
 
 # Fill below condition using PIPESTATUS
-if [[ 0 -eq ${PIPESTATUS[-1]} ]]; then
+if [[  ]]; then
     echo "Last command is a success!"
 else
     echo "Last command is a failure."
