@@ -1,7 +1,9 @@
 #!/bin/bash
 # EXERCISE: - Create a guessing game in pure bash.
 #           - They are several ways of doing it.
-
+#
+# CHALLENGE: When $guess higher than $secret_number echo in red, if lower in blue, if same in green
+#
 # I AM NOT DONE
 #
 
